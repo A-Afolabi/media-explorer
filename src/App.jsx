@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { searchTitles } from './api/watchmode'
+import { getTitleDetails } from './api/watchmode'
 
 function App() {
   const [query, setQuery] = useState('')
@@ -7,6 +8,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [hasSearched, setHasSearched] = useState(false)
+
+  const [selectedTitle, setSelectedTitle] = useState(null)
+  const [loadingDetails, setLoadingDetails] = useState(false)
+  const [detailsError, setDetailsError] = useState(null)
 
   const handleSearch = async (e) => {
     e.preventDefault()
@@ -23,7 +28,6 @@ function App() {
     try {
       const data = await searchTitles(q)
       setResults(data)
-      console.log(data)
     } catch (err) {
       setError('Failed to load results')
       setResults([])
@@ -32,11 +36,27 @@ function App() {
     }
   }
 
+  async function handleSelectTitle(id) {
+    try {
+      setLoadingDetails(true)
+      setDetailsError(null)
+
+      const details = await getTitleDetails(id)
+      console.log('DETAILS:', details)
+      setSelectedTitle(details)
+    } catch (err) {
+      console.error(err)
+      setDetailsError('Could not load title details')
+    } finally {
+      setLoadingDetails(false)
+    }
+  }
+
   return (
     <>
       <div>
         <h1>
-          Media Explorer app
+          Find It Stream It (Media Explorer app)
         </h1>
         <form onSubmit={handleSearch}>
           <input
@@ -58,13 +78,26 @@ function App() {
               <h5>Showing {results.length} results</h5>
             }
             {results.map(item => (
-              <li key={item.id}>
+              <li
+                key={item.id}
+                style={{ cursor: 'pointer' }}
+                onClick={() => handleSelectTitle(item.id)}
+              >
                 <strong>{item.name}</strong>
                 {item.year ? ` (${item.year})` : ''}
                 {item.type ? ` (${item.type})` : ''}
               </li>
             ))}
           </ul>
+          {loadingDetails && <h5>Loading details...</h5>}
+          {detailsError && <h5>{detailsError}</h5>}
+
+          {selectedTitle && (
+            <div>
+              <h3>{selectedTitle.title || selectedTitle.name}</h3>
+              <pre>{JSON.stringify(selectedTitle, null, 2)}</pre>
+            </div>
+          )}
         </div>
       </div>
     </>

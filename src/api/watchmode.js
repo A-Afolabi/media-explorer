@@ -7,7 +7,6 @@ export const watchmode = axios.create({
 })
 
 export async function searchTitles(query) {
-  console.log('BASE:', watchmode.defaults.baseURL)
   const q = query.trim()
   if (!q) return []
 
@@ -16,9 +15,14 @@ export async function searchTitles(query) {
       apiKey: API_KEY,
       search_field: 'name',
       search_value: q,
-      // types: 'movie,tv_series'
     }
   })
-  console.log('Search Data:', res.data)
   return res.data?.title_results ?? []
+}
+
+export async function getTitleDetails(titleId) {
+  const res = await watchmode.get(`/title/${titleId}/details/`, {
+    params: { apiKey: API_KEY }
+  })
+  return res.data
 }
