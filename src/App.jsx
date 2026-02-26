@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { searchTitles } from './api/watchmode'
 import { getTitleDetails } from './api/watchmode'
 
+import TitleDetailsModal from './components/TitleDetailsModal'
+
 function App() {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
@@ -92,12 +94,10 @@ function App() {
           {loadingDetails && <h5>Loading details...</h5>}
           {detailsError && <h5>{detailsError}</h5>}
 
-          {selectedTitle && (
-            <div>
-              <h3>{selectedTitle.title || selectedTitle.name}</h3>
-              <pre>{JSON.stringify(selectedTitle, null, 2)}</pre>
-            </div>
-          )}
+          <TitleDetailsModal
+            title={selectedTitle}
+            onClose={() => setSelectedTitle(null)}
+          />
         </div>
       </div>
     </>
