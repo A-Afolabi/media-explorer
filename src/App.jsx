@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { searchTitles } from './api/watchmode'
-import { getTitleDetails } from './api/watchmode'
-
 import TitleDetailsModal from './components/TitleDetailsModal'
 
 function App() {
@@ -11,9 +9,9 @@ function App() {
   const [error, setError] = useState('')
   const [hasSearched, setHasSearched] = useState(false)
 
-  const [selectedTitle, setSelectedTitle] = useState(null)
-  const [loadingDetails, setLoadingDetails] = useState(false)
-  const [detailsError, setDetailsError] = useState(null)
+  // Store the selected title ID (not the whole details object)
+  const [selectedTitleId, setSelectedTitleId] = useState(null)
+
 
   const handleSearch = async (e) => {
     e.preventDefault()
@@ -38,69 +36,51 @@ function App() {
     }
   }
 
-  async function handleSelectTitle(id) {
-    try {
-      setLoadingDetails(true)
-      setDetailsError(null)
-
-      const details = await getTitleDetails(id)
-      console.log('DETAILS:', details)
-      setSelectedTitle(details)
-    } catch (err) {
-      console.error(err)
-      setDetailsError('Could not load title details')
-    } finally {
-      setLoadingDetails(false)
-    }
+  function handleSelectTitle(id) {
+    setSelectedTitleId(id)
   }
 
   return (
-    <>
-      <div>
-        <h1>
-          Find It Stream It (Media Explorer app)
-        </h1>
-        <form onSubmit={handleSearch}>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder='Search Movies or Shows'
-          />
-          <button type='submit' disabled={!query.trim() || isLoading}>Search</button>
-        </form>
-        {isLoading && <h4>Loading...</h4>}
-        {error && <h4>{error}</h4>}
+    <div>
+      <h1>Find It Stream It (Media Explorer app)</h1>
+      <form onSubmit={handleSearch}>
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder='Search Movies or Shows'
+        />
+        <button type='submit' disabled={!query.trim() || isLoading}>Search</button>
+      </form>
 
-        {hasSearched && !isLoading && !error && results.length === 0 && (
-          <h4>No results found</h4>
-        )}
-        <div>
-          <ul>
-            {results.length === 0 ? '' :
-              <h5>Showing {results.length} results</h5>
-            }
-            {results.map(item => (
-              <li
-                key={item.id}
-                style={{ cursor: 'pointer' }}
-                onClick={() => handleSelectTitle(item.id)}
-              >
-                <strong>{item.name}</strong>
-                {item.year ? ` (${item.year})` : ''}
-                {item.type ? ` (${item.type})` : ''}
-              </li>
-            ))}
-          </ul>
-          {loadingDetails && <h5>Loading details...</h5>}
-          {detailsError && <h5>{detailsError}</h5>}
+      {isLoading && <h4>Loading...</h4>}
+      {error && <h4>{error}</h4>}
 
-          <TitleDetailsModal
-            title={selectedTitle}
-            onClose={() => setSelectedTitle(null)}
-          />
-        </div>
-      </div>
-    </>
+      {hasSearched && !isLoading && !error && results.length === 0 && (
+        <h4>No results found</h4>
+      )}
+      <ul>
+        {results.length > 0 &&
+          <h5>Showing {results.length} results</h5>
+        }
+        {results.map(item => (
+          <li
+            key={item.id}
+            style={{ cursor: 'pointer' }}
+            onClick={() => handleSelectTitle(item.id)}
+          >
+            <strong>{item.name}</strong>
+            {item.year ? ` (${item.year})` : ''}
+            {item.type ? ` (${item.type})` : ''}
+          </li>
+        ))}
+      </ul>
+      {selectedTitleId && (
+        <TitleDetailsModal
+          titleId={selectedTitleId}
+          onClose={() => setSelectedTitleId(null)}
+        />
+      )}
+    </div>
   )
 }
 

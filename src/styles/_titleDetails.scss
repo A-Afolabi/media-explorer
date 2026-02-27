@@ -38,3 +38,50 @@
   }
 }
 }
+
+.similar-section {
+  margin-top: 24px;
+}
+.similar-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+.similar-card {
+  flex: 0 0 auto;
+  width: 130px;
+  cursor: pointer;
+}
+.similar-card img {
+  width: 140px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.modal-panal {
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.meta-separator {
+  margin: 0 8px;
+  opacity: 0.6px;
+  font-weight: 900;
+}
+
+.ratings-heading {
+  margin-top: 20px;
+  margin-bottom: 2px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08;
+  opacity: 0.6;
+}
+.title-details-scores {
+  display: flex;
+  gap: 16px;
+  font-size: 1rem;
+}

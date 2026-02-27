@@ -20,9 +20,12 @@ export async function searchTitles(query) {
   return res.data?.title_results ?? []
 }
 
-export async function getTitleDetails(titleId) {
+export async function getTitleDetails(titleId, append = []) {
   const res = await watchmode.get(`/title/${titleId}/details/`, {
-    params: { apiKey: API_KEY }
+    params: {
+      apiKey: API_KEY,
+      ...(append.length ? { append_to_response: append.join(',') } : {})
+    }
   })
   return res.data
 }
