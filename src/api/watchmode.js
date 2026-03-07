@@ -29,3 +29,12 @@ export async function getTitleDetails(titleId, append = []) {
   })
   return res.data
 }
+
+export async function getSources(titleId) {
+  const res = await watchmode.get(`/title/${titleId}/sources/`, {
+    params: {
+      apiKey: API_KEY
+    }
+  })
+  return res.data.filter(source => source.region === 'GB')
+}

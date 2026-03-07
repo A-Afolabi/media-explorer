@@ -78,6 +78,7 @@ function App() {
         <TitleDetailsModal
           titleId={selectedTitleId}
           onClose={() => setSelectedTitleId(null)}
+          onSelectTitle={handleSelectTitle}
         />
       )}
     </div>

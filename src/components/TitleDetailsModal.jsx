@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react"
-import { getTitleDetails } from '../api/watchmode'
+import { useEffect, useRef, useState } from "react"
+import { getTitleDetails, getSources } from '../api/watchmode'
+import StreamingSources from "./StreamingSources"
 
-function TitleDetailsModal({ titleId, onClose }) {
+function TitleDetailsModal({ titleId, onClose, onSelectTitle }) {
   const [details, setDetails] = useState(null)
+  const [sources, setSources] = useState([])
+  console.log('Sources:', sources)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
   const [similarTitles, setSimilarTitles] = useState([])
+
+  const modalPanelRef = useRef(null)
 
   useEffect(() => {
     if (!titleId) return
@@ -19,17 +24,24 @@ function TitleDetailsModal({ titleId, onClose }) {
         setError(null)
         setDetails(null)
         setSimilarTitles([])
+        setSources([])
 
         const data = await getTitleDetails(titleId, ['similar_titles'])
         if (!cancelled) {
           setDetails(data)
-          const similarIds = (data?.similar_titles ?? []).slice(0, 8)
-          const similarDetails = await Promise.all(
-            similarIds.map((id) => getTitleDetails(id))
-          )
-          if (!cancelled) {
-            setSimilarTitles(similarDetails)
-          }
+        }
+
+        const sourceData = await getSources(titleId)
+        if (!cancelled) {
+          setSources(sourceData)
+        }
+
+        const similarIds = (data?.similar_titles ?? []).slice(0, 8)
+        const similarDetails = await Promise.all(
+          similarIds.map((id) => getTitleDetails(id))
+        )
+        if (!cancelled) {
+          setSimilarTitles(similarDetails)
         }
       } catch (err) {
         if (!cancelled) setError('Failed to load details')
@@ -59,6 +71,12 @@ function TitleDetailsModal({ titleId, onClose }) {
       document.body.style.overflow = prevOverflow
     }
   }, [onClose])
+
+  useEffect(() => {
+    if (modalPanelRef.current) {
+      modalPanelRef.current.scrollTop = 0
+    }
+  }, [titleId])
 
   const posterSrc = details?.posterLarge || details?.posterMedium || details?.poster
 
@@ -90,7 +108,11 @@ function TitleDetailsModal({ titleId, onClose }) {
       aria-modal='true'
       aria-label='Title details'
     >
-      <div className='modal-panel' onClick={(e) => e.stopPropagation()}>
+      <div
+        className='modal-panel'
+        ref={modalPanelRef}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className='modal-close' onClick={onClose} aria-label='Close'>
           x
         </button>
@@ -152,6 +174,7 @@ function TitleDetailsModal({ titleId, onClose }) {
             </div>
           </section>
         )}
+        <StreamingSources sources={sources} />
         {similarTitles.length > 0 && (
           <section className='similar-section'>
             <h3>Similar Titles</h3>
@@ -163,7 +186,7 @@ function TitleDetailsModal({ titleId, onClose }) {
                   <div
                     key={item.id}
                     className='similar-card'
-                    onClick={() => console.log('Clicked Similar:', item.id)}
+                    onClick={() => onSelectTitle(item.id)}
                   >
                     {poster && (
                       <img
