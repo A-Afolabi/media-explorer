@@ -5,7 +5,6 @@ import StreamingSources from "./StreamingSources"
 function TitleDetailsModal({ titleId, onClose, onSelectTitle }) {
   const [details, setDetails] = useState(null)
   const [sources, setSources] = useState([])
-  console.log('Sources:', sources)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -174,10 +173,11 @@ function TitleDetailsModal({ titleId, onClose, onSelectTitle }) {
             </div>
           </section>
         )}
+        <h3 className='streaming-heading'>Where To Watch</h3>
         <StreamingSources sources={sources} />
         {similarTitles.length > 0 && (
           <section className='similar-section'>
-            <h3>Similar Titles</h3>
+            <h3 className='similarTitle-heading'>Similar Titles</h3>
             <div className='similar-row'>
               {similarTitles.map((item) => {
                 const poster =

@@ -17,8 +17,6 @@ function StreamingSources({ sources }) {
     return <h4>Currently Not Streaming In The UK</h4>
   }
 
-  const typeOrder = ['sub', 'free', 'buy', 'rent']
-
   const groupedSources = Object.values(
     sources.reduce((acc, source) => {
       if (!acc[source.name]) {
@@ -31,21 +29,16 @@ function StreamingSources({ sources }) {
       }
       return acc
     }, {})
-  ).map(service => ({
-    ...service,
-    types: service.types.sort(
-      (a, b) => typeOrder.indexOf(a) - typeOrder.indexOf(b)
-    )
-  }))
+  )
 
   return (
-    <ul className='steaming-sources'>
+    <ul className='streaming-sources'>
       {groupedSources.map((source, index) => {
         // Using index too, due to issues with unique key
         const name = source.name.trim()
         const logo = platformLogos[name]
         return (
-          <li key={`${source.source_id}-${source.type}-${source.region}-${index}`}>
+          <li key={`${source.source_id}-${index}`}>
             <a href={source.web_url} target='_blank' rel='noreferrer'>
               {logo ? (
                 <img
@@ -56,11 +49,6 @@ function StreamingSources({ sources }) {
               ) : (
                 source.name
               )}
-              <div className='streaming-types'>
-                {source.types.map(type => (
-                  <span key={type}>{type.toUpperCase()}</span>
-                ))}
-              </div>
             </a>
           </li>
         )
