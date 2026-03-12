@@ -2,43 +2,75 @@
   display: flex;
   gap: 1.5rem;
   align-items: flex-start;
-&-poster {
-  width: 220px;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-&-content {
-  max-width: 700px;
-}
-&-title {
-  margin: 0;
-}
-&-meta {
-  margin: 0.5rem 0;
-  color: #666
-}
-&-genres {
-  margin: 0.25rem 0;
-}
-&-overview {
-  margin-top: 0.75rem;
-  line-height: 1.5;
-}
-&-score {
-  display: flex;
-  gap: 1rem;
-  margin-top: 00.75rem;
-  font-weight: 500;
-}
-&-trailer {
-  margin-top: 1rem;
-  a {
-    text-decoration: none;
-    font-weight: 600;
+  &-poster {
+    width: 220px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  &-content {
+    max-width: 700px;
+  }
+  &-title {
+    margin: 0;
+  }
+  &-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin: 0.5rem 0;
+    color: #666
+  }
+  &-meta-item {
+    white-space: nowrap;
+  }
+  &-genres {
+    margin: 0.25rem 0;
+  }
+  &-overview {
+    margin-top: 0.75rem;
+    line-height: 1.5;
+  }
+  &-score {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    font-weight: 500;
+  }
+  &-trailer {
+    margin-top: 1rem;
+    a {
+      text-decoration: none;
+      font-weight: 600;
+    }
   }
 }
-}
 
+@media (max-width: 600px) {
+  .title-details {
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    &-poster {
+      width: 180px;
+      max-width: 100%;
+      margin-bottom: 16px;
+  }
+    &-content {
+      width: 100%;
+    }
+    &-title,
+    &-meta,
+    &-genres,
+    &-overview,
+    &-trailer {
+      width: 100%;
+    }
+  }
+  .title-details-scores {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
 .similar-section {
   margin-top: 24px;
 }
@@ -48,11 +80,6 @@
   overflow-x: auto;
   padding-bottom: 12px;
 }
-.similar-card {
-  flex: 0 0 auto;
-  width: 130px;
-  cursor: pointer;
-}
 .similar-card img {
   width: 140px;
   height: 200px;
@@ -60,24 +87,16 @@
   border-radius: 8px;
   display: block;
 }
-
 .modal-panal {
   max-height: 85vh;
   overflow-y: auto;
 }
-
-.meta-separator {
-  margin: 0 8px;
-  opacity: 0.6px;
-  font-weight: 900;
-}
-
 .ratings-heading {
   margin-top: 20px;
   margin-bottom: 2px;
   font-size: 0.9rem;
   text-transform: uppercase;
-  letter-spacing: 0.08;
+  letter-spacing: 0.08em;
   opacity: 0.6;
 }
 .title-details-scores {
@@ -85,7 +104,6 @@
   gap: 16px;
   font-size: 1rem;
 }
-
 .similarTitle-heading {
   margin-top: 24px;
   margin-bottom: 10px;

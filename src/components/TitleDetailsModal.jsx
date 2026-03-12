@@ -5,6 +5,7 @@ import StreamingSources from "./StreamingSources"
 function TitleDetailsModal({ titleId, onClose, onSelectTitle }) {
   const [details, setDetails] = useState(null)
   const [sources, setSources] = useState([])
+  // console.log(sources)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -132,19 +133,21 @@ function TitleDetailsModal({ titleId, onClose, onSelectTitle }) {
                 <strong>{details.title} {details.year && `(${details.year})`}</strong>
               </h2>
               <p className='title-details-meta'>
-                {details.us_rating && `US Ratings: ${details.us_rating}`}
-                {details.runtime_minutes ? (
-                  <>
-                    <span className='meta-separator'> · </span>
+                {details.us_rating && (
+                  <span className='title-details-meta-item'>
+                    US Ratings: {details.us_rating}
+                  </span>
+                )}
+                {details.runtime_minutes && (
+                  <span className='title-details-meta-item'>
                     {formatRuntime(details.runtime_minutes)}
-                  </>
-                ) : null}
-                {details.release_date ? (
-                  <>
-                    <span className='meta-separator'> · </span>
+                  </span>
+                )}
+                {details.release_date && (
+                  <span className='title-details-meta-item'>
                     {formatReleaseDate(details.release_date)}
-                  </>
-                ) : null}
+                  </span>
+                )}
               </p>
               {details.genre_names?.length ? (
                 <p className='title-details-genres'>

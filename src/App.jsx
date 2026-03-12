@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { searchTitles } from './api/watchmode'
+import { getTitleDetails, searchTitles } from './api/watchmode'
 import TitleDetailsModal from './components/TitleDetailsModal'
 
 function App() {
@@ -27,7 +27,29 @@ function App() {
 
     try {
       const data = await searchTitles(q)
-      setResults(data)
+      const resultsToEnrich = data.slice(0, 10)
+      const remainingResults = data.slice(10)
+      const enrichedResults = await Promise.all(
+        resultsToEnrich.map(async (item) => {
+          try {
+            const details = await getTitleDetails(item.id)
+            return {
+              ...item,
+              poster: details.poster || details.posterMedium || details.posterLarge || null
+            }
+          } catch (error) {
+            return {
+              ...item,
+              poster: null
+            }
+          }
+        })
+      )
+      const finalResults = [
+        ...enrichedResults,
+        ...remainingResults
+      ]
+      setResults(finalResults)
     } catch (err) {
       setError('Failed to load results')
       setResults([])
@@ -58,22 +80,33 @@ function App() {
       {hasSearched && !isLoading && !error && results.length === 0 && (
         <h4>No results found</h4>
       )}
-      <ul>
-        {results.length > 0 &&
-          <h5>Showing {results.length} results</h5>
-        }
-        {results.map(item => (
-          <li
-            key={item.id}
-            style={{ cursor: 'pointer' }}
-            onClick={() => handleSelectTitle(item.id)}
-          >
-            <strong>{item.name}</strong>
-            {item.year ? ` (${item.year})` : ''}
-            {item.type ? ` (${item.type})` : ''}
-          </li>
-        ))}
-      </ul>
+      <>
+        {results.length > 0 && (
+          <h5 className='search-results-heading'>Showing {results.length} results</h5>
+        )}
+        <ul className='search-results-list'>
+          {results.map(item => (
+            <li
+              key={item.id}
+              className='search-result-item'
+              onClick={() => handleSelectTitle(item.id)}
+            >
+              {item.poster && (
+                <img
+                  src={item.poster}
+                  alt={`${item.name} poster`}
+                  className='search-result-poster'
+                />
+              )}
+              <div className='search-result-text'>
+                <strong>{item.name}</strong>
+                {item.year ? ` (${item.year})` : ''}
+                {item.type ? ` (${item.type})` : ''}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
       {selectedTitleId && (
         <TitleDetailsModal
           titleId={selectedTitleId}

@@ -2,13 +2,19 @@ import netflixLogo from '../assets/streaming/Netflix_Logo_0.svg'
 import disneyLogo from '../assets/streaming/Disney +_Logo_0.svg'
 import primeLogo from '../assets/streaming/amazon-prime-video-1.svg'
 import appleLogo from '../assets/streaming/appletv.svg'
+import youtubeLogo from '../assets/streaming/YouTube_Logo_0.svg'
+import rakutenLogo from '../assets/streaming/Rakuten_idZrx4UxGb_0.svg'
+import nowTVLogo from '../assets/streaming/NOW_ideybGV1zR_1.svg'
 
 const platformLogos = {
   Netflix: netflixLogo,
   'Disney+': disneyLogo,
   'Amazon': primeLogo,
   'Prime Video': primeLogo,
-  'AppleTV': appleLogo
+  'AppleTV': appleLogo,
+  'YouTube': youtubeLogo,
+  'Rakuten TV': rakutenLogo,
+  'Now TV': nowTVLogo
 }
 
 
