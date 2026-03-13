@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { getTitleDetails, getSources } from '../api/watchmode'
+import { getTitleDetails, getSources } from '../../api/watchmode'
 import StreamingSources from "./StreamingSources"
 
 function TitleDetailsModal({ titleId, onClose, onSelectTitle }) {

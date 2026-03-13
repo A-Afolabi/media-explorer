@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { getTitleDetails, searchTitles } from './api/watchmode'
-import TitleDetailsModal from './components/TitleDetailsModal'
+import TitleDetailsModal from './components/TitleDetailsModal/TitleDetailsModal'
+import SearchResults from './components/SearchResults'
+import SearchForm from './components/SearchForm'
+import SearchStatus from './components/SearchStatus'
 
 function App() {
   const [query, setQuery] = useState('')
@@ -64,49 +67,23 @@ function App() {
 
   return (
     <div>
-      <h1>Find It Stream It (Media Explorer app)</h1>
-      <form onSubmit={handleSearch}>
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder='Search Movies or Shows'
-        />
-        <button type='submit' disabled={!query.trim() || isLoading}>Search</button>
-      </form>
-
-      {isLoading && <h4>Loading...</h4>}
-      {error && <h4>{error}</h4>}
-
-      {hasSearched && !isLoading && !error && results.length === 0 && (
-        <h4>No results found</h4>
-      )}
-      <>
-        {results.length > 0 && (
-          <h5 className='search-results-heading'>Showing {results.length} results</h5>
-        )}
-        <ul className='search-results-list'>
-          {results.map(item => (
-            <li
-              key={item.id}
-              className='search-result-item'
-              onClick={() => handleSelectTitle(item.id)}
-            >
-              {item.poster && (
-                <img
-                  src={item.poster}
-                  alt={`${item.name} poster`}
-                  className='search-result-poster'
-                />
-              )}
-              <div className='search-result-text'>
-                <strong>{item.name}</strong>
-                {item.year ? ` (${item.year})` : ''}
-                {item.type ? ` (${item.type})` : ''}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </>
+      <h1>Find It Stream It</h1>
+      <SearchForm
+        query={query}
+        setQuery={setQuery}
+        onSearch={handleSearch}
+        isLoading={isLoading}
+      />
+      <SearchStatus
+        isLoading={isLoading}
+        error={error}
+        hasSearched={hasSearched}
+        resultsLength={results.length}
+      />
+      <SearchResults
+        results={results}
+        onSelectTitle={handleSelectTitle}
+      />
       {selectedTitleId && (
         <TitleDetailsModal
           titleId={selectedTitleId}
