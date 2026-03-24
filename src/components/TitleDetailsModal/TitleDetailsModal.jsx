@@ -36,7 +36,7 @@ function TitleDetailsModal({ titleId, onClose, onSelectTitle }) {
           setSources(sourceData)
         }
 
-        const similarIds = (data?.similar_titles ?? []).slice(0, 8)
+        const similarIds = (data?.similar_titles ?? []).slice(0, 5)
         const similarDetails = await Promise.all(
           similarIds.map((id) => getTitleDetails(id))
         )
@@ -81,11 +81,12 @@ function TitleDetailsModal({ titleId, onClose, onSelectTitle }) {
   const posterSrc = details?.posterLarge || details?.posterMedium || details?.poster
 
   function formatRuntime(minutes) {
-    if (!minutes) return null
+    if (!minutes || minutes < 0) return null
     const hours = Math.floor(minutes / 60)
     const mins = minutes % 60
 
     if (hours === 0) return `${mins}m`
+    if (mins === 0) return `${hours} hr`
     return `${hours}hr ${mins}mins`
   }
 

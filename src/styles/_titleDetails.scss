@@ -71,14 +71,27 @@
     flex-wrap: wrap;
   }
 }
+.title-details-overview {
+  text-align: justify;
+}
 .similar-section {
   margin-top: 24px;
 }
 .similar-row {
   display: flex;
   gap: 16px;
+  flex-wrap: nowrap;
   overflow-x: auto;
+  justify-content: flex-start;
   padding-bottom: 12px;
+  scroll-behavior: smooth;
+}
+@media (min-width: 1100px) {
+  .similar-row {
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
 }
 .similar-card img {
   width: 140px;
@@ -101,12 +114,24 @@
 }
 .title-details-scores {
   display: flex;
-  gap: 16px;
+  gap: 15%;
   font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
 }
 .similarTitle-heading {
   margin-top: 24px;
   margin-bottom: 10px;
   font-size: 1.1rem;
   font-weight: 600;
+}
+.title-details-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  text-align: center;
 }

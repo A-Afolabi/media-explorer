@@ -4,6 +4,7 @@ import TitleDetailsModal from './components/TitleDetailsModal/TitleDetailsModal'
 import SearchResults from './components/SearchResults'
 import SearchForm from './components/SearchForm'
 import SearchStatus from './components/SearchStatus'
+import './App.css'
 
 function App() {
   const [query, setQuery] = useState('')
@@ -67,13 +68,20 @@ function App() {
 
   return (
     <div>
-      <h1>Find It Stream It</h1>
-      <SearchForm
-        query={query}
-        setQuery={setQuery}
-        onSearch={handleSearch}
-        isLoading={isLoading}
-      />
+      <div className='homepage'>
+        <h1>Find It. Stream It.</h1>
+        <p className='homepage-tagline'>
+          Search movies and TV shows to find where they're streaming.
+        </p>
+        <div className='homepage-search'>
+          <SearchForm
+            query={query}
+            setQuery={setQuery}
+            onSearch={handleSearch}
+            isLoading={isLoading}
+          />
+        </div>
+      </div>
       <SearchStatus
         isLoading={isLoading}
         error={error}

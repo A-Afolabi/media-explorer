@@ -4,39 +4,108 @@
   padding: 2rem;
   text-align: center;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+h1 {
+  margin-bottom: 0.75rem;
+  font-size: 3rem;
+  font-weight: 700;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.homepage-tagline {
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  opacity: 0.85;
 }
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.homepage-search {
+  width: 100%;
+}
+.search-form {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.search-input {
+  width: min(430px, 90vw);
+  padding: 0.75rem 1rem;
+  border: 1px solid #666;
+  border-radius: 8px;
+}
+.search-button {
+  background-color: #646cff;
+  color: white;
+  border: none;
+  transition: opacity 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
+}
+.search-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.search-button:not(disabled):hover {
+  background-color: #535bf2;
+}
+.search-button:not(disabled):active {
+  transform: scale(0.98);
+}
+.search-result-heading {
+  margin-bottom: 1rem;
+}
+.search-result-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 800px;
+}
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  padding: 0.9rem;
+  margin-bottom: 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.search-result-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.search-result-poster {
+  width: 60px;
+  min-width: 60px;
+  border-radius: 6px;
+}
+.search-result-text {
+  display: flex;
+  flex-direction: column;
+}
+@media (prefer-color-scheme: light) {
+  .search-result-item:hover {
+    background-color: rgba(0, 0, 0, 0.06);
   }
-  to {
-    transform: rotate(360deg);
+}
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.2rem;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  .homepage-tagline {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    margin-bottom: 1.5rem;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-input {
+    width: 100%;
+  }
 }

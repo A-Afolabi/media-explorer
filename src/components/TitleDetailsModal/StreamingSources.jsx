@@ -29,7 +29,7 @@ const platformLogos = {
   'Prime Video': primeLogo,
   'AppleTV': appleLogo,
   'Apple TV': appleLogo,
-  'YouTube': youtubeLogo,
+  YouTube: youtubeLogo,
   'Rakuten TV': rakutenLogo,
   'NOW TV': nowTVLogo,
   'BBC iPlayer': iPlayerLogo,
@@ -41,11 +41,11 @@ const platformLogos = {
   'All 4': all4Logo,
   'UKTV Play': UKTV_Logo,
   'My5': my5Logo,
-  // 'Paramount+': paramountLogo,
-  // 'Discovery+': discoveryLogo,
-  // 'BritBox': britBoxLogo,
-  // 'Mubi': mubiLogo,
-  // 'Pluto TV': plutoLogo
+  'Paramount Plus': paramountLogo,
+  'Discovery+': discoveryLogo,
+  'BritBox': britBoxLogo,
+  'MUBI': mubiLogo,
+  'Pluto TV': plutoLogo
 }
 
 function StreamingSources({ sources }) {
@@ -65,7 +65,6 @@ function StreamingSources({ sources }) {
       return acc
     }, {})
   )
-  console.log([...new Set(uniqueSources.map(source => source.name))])
 
   return (
     <ul className='streaming-sources'>
